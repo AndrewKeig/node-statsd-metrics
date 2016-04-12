@@ -32,14 +32,19 @@ module.exports =  (cfg, options) => {
     return stat.replace(/\W+/g, '.').toLowerCase();
   }
 
-  const underscore = (stat) => {
+  const underscore = (stat, excludePeriods) => {
 
-    return stat.replace(/\W+/g, '_');
+      if(excludePeriods)
+      {
+          return stat.replace(/^\w\./, '_');
+      }
+      
+      return stat.replace(/\W+/g, '_');
   }
 
   const metric = (stat) => {
 
-    return clean(`.${env}.${app}.${underscore(stat)}.${hostname}`);
+    return clean(`.${env}.${app}.${underscore(stat, true)}.${hostname}`);
   }
 
   let currentKey = '';
